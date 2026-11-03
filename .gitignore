@@ -1,0 +1,36 @@
+# Python
+.venv/
+venv/
+env/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Local/editor
+.env
+.env.*
+.DS_Store
+Thumbs.db
+*.tmp
+*.bak
+
+# Outputs and generated data
+outputs/logs/*.log
+outputs/figures/*
+outputs/tables/*
+reports/output/*
+data_intermediate/*.parquet/
+data_intermediate/*.parquet
+data_processed/*.parquet/
+data_processed/*.parquet
+
+# Keep folder placeholders/docs
+!outputs/figures/.gitkeep
+!outputs/tables/.gitkeep
+!outputs/logs/.gitkeep
+

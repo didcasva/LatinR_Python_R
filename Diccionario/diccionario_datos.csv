@@ -1,0 +1,40 @@
+﻿ID,NOMBRE,ETIQUETA,TIPO,FORMATO,PREGUNTA
+V1780,COD_DPTO,Departamento de Nacimiento,discrete,character,Departamento de Nacimiento. Código según la División Político-Administrativa del DANE.
+V1781,COD_MUNIC,Municipio de Nacimiento,discrete,character,Municipio de Nacimiento. Código según la División Político-Administrativa del DANE.
+V1782,AREANAC,Área del Nacimiento,discrete,character,Área del Nacimiento. 1=Cabecera municipal; 2=Centro poblado; 3=Rural disperso; 9=Sin información.
+V1783,SIT_PARTO,Sitio del Parto,discrete,character,Sitio del Parto. 1=Institución de salud; 2=Domicilio; 3=Otro; 9=Sin información.
+V1784,OTRO_SIT,"Otro sitio, ¿cuál?",discrete,character,"Otro sitio, ¿cuál?"
+V1785,SEXO,Sexo del nacido vivo,discrete,character,Sexo del nacido vivo. 1=Masculino; 2=Femenino; 3=Indeterminado.
+V1786,PESO_NAC,Peso del nacido vivo al nacer,discrete,character,Peso del nacido vivo al nacer. 1=Menos de 1.000; 2=1.000-1.499; 3=1.500-1.999; 4=2.000-2.499; 5=2.500-2.999; 6=3.000-3.499; 7=3.500-3.999; 8=4.000 y más; 9=Sin información.
+V1787,TALLA_NAC,Talla del nacido vivo al nacer,discrete,character,Talla del nacido vivo al nacer. 1=Menos de 20; 2=20-29; 3=30-39; 4=40-49; 5=50-59; 6=60 y más; 9=Sin información.
+V1788,ANO,Año de la ocurrencia,discrete,character,Año de la ocurrencia.
+V1789,MES,Mes de la ocurrencia,discrete,character,Mes de la ocurrencia. 01=Enero; 02=Febrero; 03=Marzo; 04=Abril; 05=Mayo; 06=Junio; 07=Julio; 08=Agosto; 09=Septiembre; 10=Octubre; 11=Noviembre; 12=Diciembre.
+V1790,ATEN_PAR,El parto fue atendido por,discrete,character,El parto fue atendido por. 1=Médico; 2=Enfermero(a); 3=Auxiliar de enfermería; 4=Promotor(a) de salud; 5=Partera; 6=Otra persona; 9=Sin información.
+V1791,T_GES,Tiempo de gestación del nacido vivo,discrete,character,Tiempo de gestación del nacido vivo. 1=Menos de 22; 2=De 22 a 27; 3=De 28 a 37; 4=De 38 a 41; 5=De 42 y más; 6=Ignorado; 9=Sin información.
+V1792,T_GES_AGRU_CIE,Tiempo de gestación ajustado a la agrupación CIE,discrete,character,Tiempo de gestación ajustado a la agrupación sugerida por la CIE. 1=Menos de 22; 2=De 22 a 27; 3=De 28 a 36; 4=De 37 a 41; 5=De 42 y más; 6=Ignorado; 9=Sin información.
+V1793,NUMCONSUL,Número de consultas prenatales,discrete,character,Número de consultas prenatales que tuvo la madre del nacido vivo. 00=Ninguna; 99=Sin información.
+V1794,TIPO_PARTO,Tipo de parto,discrete,character,Tipo de parto. 1=Espontáneo; 2=Cesárea; 3=Instrumentado; 4=Ignorado; 9=Sin información.
+V1795,MUL_PARTO,Multiplicidad del embarazo,discrete,character,Multiplicidad del embarazo. 1=Simple; 2=Doble; 3=Triple; 4=Cuádruple o más; 9=Sin información.
+V1796,APGAR1,APGAR al minuto,discrete,character,APGAR al minuto del nacido vivo. 01-10=Al minuto; 99=Sin información.
+V1797,APGAR2,APGAR a los cinco minutos,discrete,character,APGAR a los cinco minutos del nacido vivo. 01-10=A los cinco minutos; 99=Sin información.
+V1798,IDHEMOCLAS,Hemoclasificación: grupo sanguíneo,discrete,character,Hemoclasificación del nacido vivo: Grupo sanguíneo. 1=A; 2=B; 3=O; 4=AB; 9=Sin información.
+V1799,IDFACTORRH,Hemoclasificación: factor RH,discrete,character,Hemoclasificación del nacido vivo: Factor RH. 1=Positivo; 2=Negativo; 9=Sin información.
+V1800,IDPERTET,Pertenencia étnica del nacido vivo,discrete,character,"De acuerdo con la cultura, pueblo o rasgos físicos, el nacido vivo es reconocido por sus padres como: 1=Indígena; 2=Rom; 3=Raizal; 4=Palenquero; 5=Negro(a), mulato(a), afrocolombiano(a) o afrodescendiente; 6=Ninguna de las anteriores; 9=Sin información."
+V1801,EDAD_MADRE,Edad de la madre a la fecha del parto,discrete,character,Edad de la madre a la fecha del parto. 1=10-14; 2=15-19; 3=20-24; 4=25-29; 5=30-34; 6=35-39; 7=40-44; 8=45-49; 9=50-54; 99=Sin información.
+V1802,EST_CIVM,Estado conyugal de la madre,discrete,character,Estado conyugal de la madre. 1=No está casada y lleva dos o más años viviendo con su pareja; 2=No está casada y lleva menos de dos años viviendo con su pareja; 3=Separada/divorciada; 4=Viuda; 5=Soltera; 6=Casada; 9=Sin información.
+V1803,NIV_EDUM,Nivel educativo de la madre,discrete,character,Último nivel de estudio aprobado por la madre. 1=Preescolar; 2=Básica primaria; 3=Básica secundaria; 4=Media académica o clásica; 5=Media técnica; 6=Normalista; 7=Técnica profesional; 8=Tecnológica; 9=Profesional; 10=Especialización; 11=Maestría; 12=Doctorado; 13=Ninguno; 99=Sin información.
+V1804,ULTCURMAD,Último año o grado aprobado de la madre,contin,numeric,Último año o grado aprobado de la madre. 99=Sin información.
+V1805,CODPRES,País de residencia habitual de la madre en el extranjero,discrete,character,País de residencia habitual de la madre en el extranjero. Código según listado de países ISO 3166/2.
+V1806,CODPTORE,Departamento de residencia habitual de la madre,discrete,character,Departamento de residencia habitual de la madre. Código según la División Político-Administrativa del DANE.
+V1807,CODMUNRE,Municipio de residencia habitual de la madre,discrete,character,Municipio de residencia habitual de la madre. Código según la División Político-Administrativa del DANE.
+V1808,AREA_RES,Área de residencia habitual de la madre,discrete,character,Área de residencia habitual de la madre. 1=Cabecera municipal; 2=Centro poblado; 3=Rural disperso; 9=Sin información.
+V1809,N_HIJOSV,Número de hijos nacidos vivos,contin,numeric,"Número de hijos nacidos vivos que ha tenido la madre, incluido el presente. 1 a 22=número de hijos; 99=Sin información."
+V1810,FECHA_NACM,Fecha de nacimiento del anterior hijo nacido vivo,discrete,character,Fecha de nacimiento del anterior hijo nacido vivo.
+V1811,N_EMB,Número de embarazos,contin,numeric,"Número de embarazos, incluido el presente. 99=Sin información."
+V1812,SEG_SOCIAL,Régimen de seguridad social en salud de la madre,discrete,character,Régimen de seguridad social en salud de la madre. 1=Contributivo; 2=Subsidiado; 3=Excepción; 4=Especial; 5=No asegurado; 9=Sin información.
+V1813,IDCLASADMI,Entidad administradora en salud,discrete,character,Entidad administradora en salud a la que pertenece la madre. 1=EPS; 2=EPS Subsidiado; 3=Entidad adaptada; 4=Entidad especial; 5=Entidad exceptuada; 9=Sin información.
+V1814,EDAD_PADRE,Edad del padre,contin,numeric,Edad del padre en años cumplidos a la fecha del nacimiento de este hijo. 999=Sin información.
+V1815,NIV_EDUP,Nivel educativo del padre,discrete,character,Nivel educativo del padre. 1=Preescolar; 2=Básica primaria; 3=Básica secundaria; 4=Media académica o clásica; 5=Media técnica; 6=Normalista; 7=Técnica profesional; 8=Tecnológica; 9=Profesional; 10=Especialización; 11=Maestría; 12=Doctorado; 13=Ninguno; 99=Sin información.
+V1816,ULTCURPAD,Último año o grado aprobado del padre,contin,numeric,Último año o grado aprobado del nivel educativo del padre. 99=Sin información.
+V1817,PROFESION,Profesión de quien certifica el nacimiento,discrete,character,Profesión de quien certifica el nacimiento. 1=Médico; 2=Enfermero(a); 3=Auxiliar de enfermería; 4=Promotor(a) de salud; 5=Funcionario de registro civil; 9=Sin información.
+V1818,TIPOFORMULARIO,Fuente del certificado,discrete,character,Tipo de formulario para la captura de información. 1=Certificado RUAF-ND; 2=Formato de Notificación Étnica; 3=Recuperación cruce RNEC.
