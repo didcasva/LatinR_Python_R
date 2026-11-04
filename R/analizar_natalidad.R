@@ -107,6 +107,24 @@ stopifnot(nrow(mapa) == 33L, !anyDuplicated(mapa$DEPTO_RES_COD))
 mapas <- mapa |>
   left_join(departamentos |> filter(ANIO %in% c(2015L, 2023L)), by = "DEPTO_RES_COD")
 stopifnot(nrow(mapas) == 66L, !anyNA(mapas$TASA_POR_MIL))
+stopifnot(!anyNA(mapas$NACIMIENTOS))
+grafico_mapa_conteo <- ggplot(mapas) +
+  geom_sf(aes(fill = NACIMIENTOS), color = "white", linewidth = 0.1) +
+  facet_wrap(~ ANIO) +
+  scale_fill_gradientn(
+    colours = c("#C9413A", "#F3D05B", "#238B53"),
+    transform = "sqrt", limits = c(0, max(mapas$NACIMIENTOS)),
+    breaks = c(0, 10000, 20000, 40000, 60000, 100000),
+    labels = scales::label_number(big.mark = ".", decimal.mark = ","),
+    name = "Nacimientos"
+  ) +
+  labs(title = "Nacimientos registrados por departamento",
+       subtitle = "Rojo: menos nacimientos · verde: más nacimientos",
+       caption = "Misma escala para 2015 y 2023. MGN 2018 y microdatos de nacimientos del DANE.") +
+  tema + theme(axis.text = element_blank(), axis.ticks = element_blank(), panel.grid = element_blank())
+ggsave(file.path(figuras, "mapa_nacimientos_semaforo_2015_2023.png"),
+       grafico_mapa_conteo, width = 10, height = 5, dpi = 160)
+
 grafico_mapa <- ggplot(mapas) +
   geom_sf(aes(fill = TASA_POR_MIL), color = "white", linewidth = 0.1) +
   facet_wrap(~ ANIO) +
@@ -117,5 +135,5 @@ grafico_mapa <- ggplot(mapas) +
   tema + theme(axis.text = element_blank(), axis.ticks = element_blank(), panel.grid = element_blank())
 ggsave(file.path(figuras, "mapa_tasa_2015_2023.png"), grafico_mapa, width = 10, height = 6, dpi = 160)
 
-cat(sprintf("Análisis R terminado: %s registros con residencia departamental; 5 tablas y 4 figuras.\n",
+cat(sprintf("Análisis R terminado: %s registros con residencia departamental; 5 tablas y 5 figuras.\n",
             formatC(sum(anual$NACIMIENTOS), format = "d", big.mark = ".", decimal.mark = ",")))

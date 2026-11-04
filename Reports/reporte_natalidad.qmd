@@ -100,7 +100,15 @@ La edad es una categoría agrupada del formulario, no una edad exacta.
 
 ## Diferencias departamentales
 
-El mapa aplica la **misma escala** a 2015 y 2023. Muestra tasas por población,
+El siguiente mapa muestra **cantidades de nacimientos** por departamento de
+residencia de la madre: rojo representa menos nacimientos y verde, más. La escala
+es común a ambos años; los colores describen conteos, no tasas ni una valoración
+de los resultados.
+
+![](output/figures/mapa_nacimientos_semaforo_2015_2023.png){fig-alt="Mapas de cantidad de nacimientos por departamento en 2015 y 2023, con escala común de rojo para menos a verde para más" width="100%"}
+
+El mapa de tasas siguiente aplica la **misma escala** a 2015 y 2023. Muestra
+tasas por población,
 para evitar interpretar un gran número de nacimientos como una tasa alta
 simplemente por el tamaño del departamento.
 
