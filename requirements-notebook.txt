@@ -5,6 +5,7 @@ cffi==2.1.1 ; implementation_name == 'pypy'  # via pyzmq
 colorama==0.4.6 ; sys_platform == 'win32'  # via ipython
 comm==0.2.3               # via ipykernel
 debugpy==1.8.22           # via ipykernel
+et-xmlfile==2.0.0         # via openpyxl, -r requirements.txt
 executing==2.3.0          # via stack-data
 fastjsonschema==2.22.3    # via nbformat
 ipykernel==7.4.0          # via -r requirements-notebook.in
@@ -20,6 +21,7 @@ nbclient==0.11.0          # via -r requirements-notebook.in
 nbformat==5.11.1          # via nbclient, -r requirements-notebook.in
 nest-asyncio2==1.7.4      # via ipykernel
 numpy==2.5.4              # via pandas, -r requirements.txt
+openpyxl==3.1.5           # via -r requirements.txt
 packaging==26.3           # via ipykernel
 pandas==3.0.6             # via -r requirements.txt
 parso==0.8.7              # via jedi

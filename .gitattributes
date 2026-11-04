@@ -7,5 +7,12 @@ Diccionario/*.csv -text
 *.ipynb text eol=lf
 *.md text eol=lf
 *.MD text eol=lf
+*.R text eol=lf
+*.qmd text eol=lf
+*.json text eol=lf
+*.geojson text eol=lf
+.Rprofile text eol=lf
+renv.lock text eol=lf
+renv/activate.R whitespace=-trailing-space
 requirements*.txt text eol=lf
 requirements*.in text eol=lf

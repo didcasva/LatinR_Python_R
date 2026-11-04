@@ -34,6 +34,14 @@ Data_Processed/*.parquet
 Data_Processed/centralizacion_*.csv
 Data_Processed/centralizacion_*.json
 Data_Processed/.centralizacion-*/
+Data_Processed/.preparacion-*/
+Data_Processed/preparacion_*.json
+Data_Processed/poblacion_departamental.csv
+Reports/output/
+Reports/reporte_natalidad.html
+Reports/reporte_natalidad.pdf
+Reports/reporte_natalidad.typ
+.quarto/
 
 # Keep folder placeholders/docs
 !outputs/figures/.gitkeep

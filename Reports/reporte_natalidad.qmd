@@ -1,0 +1,146 @@
+---
+title: "Natalidad registrada en Colombia, 2015–2023"
+subtitle: "Un flujo reproducible entre Python y R"
+author: "Proyecto LatinR 2026"
+lang: es
+format:
+  html:
+    toc: true
+    embed-resources: true
+  typst:
+    toc: false
+    papersize: a4
+    fontsize: 10pt
+execute:
+  echo: false
+  warning: false
+  message: false
+---
+
+```{r}
+#| include: false
+anual <- read.csv("output/tables/resumen_anual.csv", fileEncoding = "UTF-8")
+depto <- read.csv("output/tables/departamentos_anual.csv", fileEncoding = "UTF-8",
+                  colClasses = c("integer", "character", "character", "integer", "numeric", "numeric"))
+edad <- read.csv("output/tables/edad_anual.csv", fileEncoding = "UTF-8")
+area <- read.csv("output/tables/area_anual.csv", fileEncoding = "UTF-8")
+auditoria <- read.csv("output/tables/auditoria_divipola.csv", fileEncoding = "UTF-8")
+manifiesto <- jsonlite::fromJSON("../Data_Processed/preparacion_manifiesto.json")
+formato_n <- function(x) formatC(x, format = "d", big.mark = ".", decimal.mark = ",")
+formato_t <- function(x) formatC(x, format = "f", digits = 2, decimal.mark = ",")
+inicio <- anual[anual$ANIO == 2015, ]
+fin <- anual[anual$ANIO == 2023, ]
+variacion <- 100 * (fin$TASA_POR_MIL / inicio$TASA_POR_MIL - 1)
+```
+
+## Alcance y fuentes
+
+La charla analiza los **nacimientos registrados de 2015 a 2023**. Los nueve CSV de
+`Data_Raw/Nacimientos` reúnen `r formato_n(manifiesto$filas)` registros. El análisis
+geográfico utiliza `r formato_n(sum(anual$NACIMIENTOS))` nacimientos cuya madre
+reside en Colombia y tiene un departamento de residencia codificado. Los demás
+registros permanecen en la base preparada y en la auditoría.
+
+El diccionario y la [documentación de microdatos del DANE](https://microdatos.dane.gov.co/)
+definen las variables. `CODPTORE` indica el departamento de **residencia habitual de
+la madre**; no se usa el departamento donde ocurrió el parto. La edad materna
+aparece en grupos quinquenales y el área de residencia distingue cabecera
+municipal, centro poblado y rural disperso. Los códigos vacíos o de información
+desconocida forman una categoría explícita.
+
+Para la tasa se emplean las [proyecciones departamentales de población del DANE](https://www.dane.gov.co/index.php/estadisticas-por-tema/demografia-y-poblacion/proyecciones-de-poblacion):
+el archivo 2005–2017 cubre 2015–2017 y el archivo 2018–2050 cubre 2018–2023.
+Los mapas utilizan los límites departamentales del
+[Marco Geoestadístico Nacional 2018](https://geoportal.dane.gov.co/mparcgis/rest/services/MGN2018/Serv_CapaDepartamentosInt_2018/MapServer/0),
+simplificados para visualización.
+
+## Cómo se construyó el indicador
+
+**Tasa observada por 1.000 habitantes** = nacimientos del microdato con madre
+residente en el departamento y año del hecho ÷ población total proyectada del
+mismo departamento y año × 1.000. La tasa nacional suma esos numeradores y
+denominadores departamentales. Se trata de una tasa bruta descriptiva calculada
+con estos archivos, no de una tasa global de fecundidad ni de un estimado oficial
+ajustado por registros tardíos. El [DANE documenta](https://www.dane.gov.co/index.php/estadisticas-por-tema/salud/nacimientos-y-defunciones/nacimientos)
+limitaciones de oportunidad en la publicación de microdatos.
+
+El catálogo DIVIPOLA del proyecto corresponde a **diciembre de 2025**. Sirve para
+auditar los códigos municipales de 2015–2023, pero una falta de coincidencia no
+demuestra que un código histórico fuera incorrecto. Por ello no se eliminan
+registros por esa comparación.
+
+## Tendencia nacional
+
+La tasa calculada pasó de **`r formato_t(inicio$TASA_POR_MIL)`** en 2015 a
+**`r formato_t(fin$TASA_POR_MIL)`** en 2023 por 1.000 habitantes, una variación de
+**`r formato_t(variacion)` %**. Los conteos proceden de los microdatos incluidos
+en este repositorio.
+
+![](output/figures/serie_tasa.png){fig-alt="Serie 2015 a 2023 de tasas de nacimientos registrados por mil habitantes" width="95%"}
+
+```{r}
+knitr::kable(data.frame(
+  Año = anual$ANIO,
+  Nacimientos = formato_n(anual$NACIMIENTOS),
+  `Población proyectada` = formato_n(anual$POBLACION),
+  `Tasa por 1.000` = formato_t(anual$TASA_POR_MIL),
+  check.names = FALSE
+), align = c("r", "r", "r", "r"))
+```
+
+## Edad materna y área de residencia
+
+Las barras expresan porcentajes del total anual de madres residentes en Colombia
+con departamento conocido. **Sin información** permanece en el denominador.
+La edad es una categoría agrupada del formulario, no una edad exacta.
+
+![](output/figures/edad_2015_2023.png){fig-alt="Distribución de edad materna de 2015 y 2023" width="95%"}
+
+![](output/figures/area_2015_2023.png){fig-alt="Participación de nacimientos según área de residencia materna en 2015 y 2023" width="80%"}
+
+## Diferencias departamentales
+
+El mapa aplica la **misma escala** a 2015 y 2023. Muestra tasas por población,
+para evitar interpretar un gran número de nacimientos como una tasa alta
+simplemente por el tamaño del departamento.
+
+![](output/figures/mapa_tasa_2015_2023.png){fig-alt="Mapas de tasas departamentales de nacimientos registrados en 2015 y 2023" width="100%"}
+
+Los cinco departamentos con mayor tasa calculada en 2023 fueron:
+
+```{r}
+mayores <- depto[depto$ANIO == 2023, ]
+mayores <- mayores[order(mayores$TASA_POR_MIL, decreasing = TRUE), ][1:5, ]
+knitr::kable(data.frame(
+  Departamento = mayores$DEPTO_RES_NOMBRE,
+  Nacimientos = formato_n(mayores$NACIMIENTOS),
+  `Tasa por 1.000` = formato_t(mayores$TASA_POR_MIL),
+  check.names = FALSE
+), align = c("l", "r", "r"))
+```
+
+## Auditoría y límites de interpretación
+
+```{r}
+revision_2023 <- auditoria[auditoria$ANIO == 2023, c("DIVIPOLA_2025", "NACIMIENTOS")]
+knitr::kable(data.frame(
+  `Comparación municipal con DIVIPOLA 2025` = revision_2023$DIVIPOLA_2025,
+  `Nacimientos 2023` = formato_n(revision_2023$NACIMIENTOS),
+  check.names = FALSE
+), align = c("l", "r"))
+```
+
+La tabla anterior describe sólo el conjunto con residencia departamental
+conocida. El [manifiesto de preparación](../Data_Processed/preparacion_manifiesto.json)
+registra además los casos de residencia exterior o país no informado. La
+comparación de códigos usa un catálogo posterior a varios años de los datos.
+Las series reflejan los CSV entregados y pueden diferir de publicaciones oficiales
+revisadas o de otras definiciones de residencia y registro.
+
+## Reproducibilidad y papel de cada herramienta
+
+Python valida los CSV, conserva los códigos originales como texto y crea un
+Parquet con auditoría. R usa Arrow para agregarlo y producir tablas y figuras.
+Quarto genera este informe en HTML y PDF. Desde la raíz del repositorio,
+`python ejecutar_todo.py` reconstruye todas las etapas. El rendimiento en otros
+volúmenes depende de las operaciones, la memoria y la implementación.
