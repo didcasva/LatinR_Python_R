@@ -1,0 +1,11 @@
+# Preservar exactamente los bytes de las fuentes al clonar en cualquier sistema.
+Data_Raw/** -text
+Diccionario/*.csv -text
+
+# Código y documentación con finales de línea portables.
+*.py text eol=lf
+*.ipynb text eol=lf
+*.md text eol=lf
+*.MD text eol=lf
+requirements*.txt text eol=lf
+requirements*.in text eol=lf

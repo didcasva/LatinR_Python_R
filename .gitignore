@@ -29,6 +29,12 @@ data_intermediate/*.parquet
 data_processed/*.parquet/
 data_processed/*.parquet
 
+# Productos regenerables de la etapa 0 (respeta mayúsculas en Linux)
+Data_Processed/*.parquet
+Data_Processed/centralizacion_*.csv
+Data_Processed/centralizacion_*.json
+Data_Processed/.centralizacion-*/
+
 # Keep folder placeholders/docs
 !outputs/figures/.gitkeep
 !outputs/tables/.gitkeep

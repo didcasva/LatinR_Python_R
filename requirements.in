@@ -1,0 +1,4 @@
+# Entorno de la etapa 0. requirements.txt fija también las dependencias transitivas.
+pandas>=3.0,<3.1
+pyarrow>=19,<27
+psutil>=7,<8

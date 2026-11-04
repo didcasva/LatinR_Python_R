@@ -1,0 +1,44 @@
+appnope==1.0.0 ; sys_platform == 'darwin'  # via ipykernel
+asttokens==3.0.2          # via stack-data
+attrs==26.1.0             # via jsonschema, referencing
+cffi==2.1.1 ; implementation_name == 'pypy'  # via pyzmq
+colorama==0.4.6 ; sys_platform == 'win32'  # via ipython
+comm==0.2.3               # via ipykernel
+debugpy==1.8.22           # via ipykernel
+executing==2.3.0          # via stack-data
+fastjsonschema==2.22.3    # via nbformat
+ipykernel==7.4.0          # via -r requirements-notebook.in
+ipython==9.18.1           # via ipykernel
+ipython-pygments-lexers==1.1.1  # via ipython
+jedi==0.20.1              # via ipython
+jsonschema==4.26.0        # via nbformat
+jsonschema-specifications==2025.9.1  # via jsonschema
+jupyter-client==8.10.0    # via ipykernel, nbclient
+jupyter-core==5.9.1       # via ipykernel, jupyter-client, nbclient, nbformat
+matplotlib-inline==0.2.2  # via ipykernel, ipython
+nbclient==0.11.0          # via -r requirements-notebook.in
+nbformat==5.11.1          # via nbclient, -r requirements-notebook.in
+nest-asyncio2==1.7.4      # via ipykernel
+numpy==2.5.4              # via pandas, -r requirements.txt
+packaging==26.3           # via ipykernel
+pandas==3.0.6             # via -r requirements.txt
+parso==0.8.7              # via jedi
+pexpect==4.9.0 ; sys_platform != 'emscripten' and sys_platform != 'win32'  # via ipython
+platformdirs==4.14.3      # via jupyter-core
+prompt-toolkit==3.0.53    # via ipython
+psutil==7.2.2             # via ipython, -r requirements.txt
+ptyprocess==0.7.0 ; sys_platform != 'emscripten' and sys_platform != 'win32'  # via pexpect
+pure-eval==0.2.4          # via stack-data
+pyarrow==26.0.1           # via -r requirements.txt
+pycparser==3.12 ; implementation_name == 'pypy'  # via cffi
+pygments==2.21.0          # via ipython, ipython-pygments-lexers
+python-dateutil==4.0.0    # via jupyter-client, pandas, -r requirements.txt
+pyzmq==27.3.0             # via ipykernel, jupyter-client
+referencing==0.37.0       # via jsonschema, jsonschema-specifications
+rpds-py==2026.9.1         # via jsonschema, referencing
+stack-data==0.6.3         # via ipython
+tornado==6.6              # via ipykernel, jupyter-client
+traitlets==5.16.1         # via ipykernel, ipython, jupyter-client, jupyter-core, matplotlib-inline, nbclient, nbformat
+typing-extensions==4.16.0  # via jupyter-client, referencing
+tzdata==2026.6            # via pandas, python-dateutil, -r requirements.txt
+wcwidth==0.9.4            # via prompt-toolkit

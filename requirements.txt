@@ -1,0 +1,6 @@
+numpy==2.5.4              # via pandas
+pandas==3.0.6             # via -r requirements.in
+psutil==7.2.2             # via -r requirements.in
+pyarrow==26.0.1           # via -r requirements.in
+python-dateutil==4.0.0    # via pandas
+tzdata==2026.6            # via pandas, python-dateutil
