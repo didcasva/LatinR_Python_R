@@ -100,6 +100,11 @@ La edad es una categoría agrupada del formulario, no una edad exacta.
 
 ## Diferencias departamentales
 
+La serie siguiente incluye los cinco departamentos con mayor cantidad de
+nacimientos en 2023 y permite ver los nueve años, no sólo los extremos.
+
+![](output/figures/serie_departamentos_top5.png){fig-alt="Series anuales de nacimientos de 2015 a 2023 para Bogotá, Antioquia, Valle del Cauca, Atlántico y Bolívar" width="100%"}
+
 El siguiente mapa muestra **cantidades de nacimientos** por departamento de
 residencia de la madre: rojo representa menos nacimientos y verde, más. La escala
 es común a ambos años; los colores describen conteos, no tasas ni una valoración

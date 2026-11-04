@@ -102,6 +102,34 @@ grafico_area <- areas |>
        fill = "Área", caption = "La categoría sin información permanece en el denominador.") + tema
 ggsave(file.path(figuras, "area_2015_2023.png"), grafico_area, width = 9, height = 5, dpi = 160)
 
+top5_codigos <- departamentos |>
+  filter(ANIO == 2023L) |>
+  slice_max(NACIMIENTOS, n = 5L, with_ties = FALSE) |>
+  pull(DEPTO_RES_COD)
+serie_top5 <- departamentos |>
+  filter(DEPTO_RES_COD %in% top5_codigos) |>
+  mutate(DEPTO_RES_NOMBRE = factor(
+    DEPTO_RES_NOMBRE,
+    levels = c("Bogotá, D.C.", "Antioquia", "Valle del Cauca", "Atlántico", "Bolívar")
+  ))
+stopifnot(nrow(serie_top5) == 45L, !anyNA(serie_top5$DEPTO_RES_NOMBRE))
+grafico_serie_departamentos <- ggplot(
+  serie_top5, aes(ANIO, NACIMIENTOS, colour = DEPTO_RES_NOMBRE)
+) +
+  geom_line(linewidth = 1.1) + geom_point(size = 2) +
+  scale_x_continuous(breaks = 2015:2023) +
+  scale_y_continuous(labels = scales::label_number(scale = 1e-3, suffix = " mil")) +
+  scale_colour_manual(values = c(
+    "Bogotá, D.C." = "#002C49", "Antioquia" = "#0056A6",
+    "Valle del Cauca" = "#FF504F", "Atlántico" = "#B8860B", "Bolívar" = "#087E8B"
+  ), name = "Departamento") +
+  labs(title = "Nacimientos registrados: cinco departamentos con más casos en 2023",
+       subtitle = "Serie anual según residencia habitual de la madre",
+       x = "Año", y = "Nacimientos",
+       caption = "Fuente: microdatos de nacimientos del DANE. Conteos del análisis territorial.") + tema
+ggsave(file.path(figuras, "serie_departamentos_top5.png"),
+       grafico_serie_departamentos, width = 10, height = 5.5, dpi = 160)
+
 mapa <- sf::st_read(geometria, quiet = TRUE)
 stopifnot(nrow(mapa) == 33L, !anyDuplicated(mapa$DEPTO_RES_COD))
 mapas <- mapa |>
@@ -135,5 +163,5 @@ grafico_mapa <- ggplot(mapas) +
   tema + theme(axis.text = element_blank(), axis.ticks = element_blank(), panel.grid = element_blank())
 ggsave(file.path(figuras, "mapa_tasa_2015_2023.png"), grafico_mapa, width = 10, height = 6, dpi = 160)
 
-cat(sprintf("Análisis R terminado: %s registros con residencia departamental; 5 tablas y 5 figuras.\n",
+cat(sprintf("Análisis R terminado: %s registros con residencia departamental; 5 tablas y 6 figuras.\n",
             formatC(sum(anual$NACIMIENTOS), format = "d", big.mark = ".", decimal.mark = ",")))
