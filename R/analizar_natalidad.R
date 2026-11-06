@@ -58,11 +58,25 @@ edades <- edades |> left_join(anual[c("ANIO", "NACIMIENTOS")], by = "ANIO",
 areas <- areas |> left_join(anual[c("ANIO", "NACIMIENTOS")], by = "ANIO",
                            suffix = c("", "_ANUAL")) |>
   mutate(PORCENTAJE = 100 * NACIMIENTOS / NACIMIENTOS_ANUAL)
+media_edad <- edades |>
+  filter(EDAD_MADRE_GRUPO != "Sin información") |>
+  mutate(PUNTO_MEDIO = as.integer(substr(EDAD_MADRE_GRUPO, 1L, 2L)) + 2L) |>
+  group_by(ANIO) |>
+  summarise(NACIMIENTOS_CON_EDAD = sum(NACIMIENTOS),
+            MEDIA_APROXIMADA = sum(NACIMIENTOS * PUNTO_MEDIO) / sum(NACIMIENTOS),
+            .groups = "drop") |>
+  left_join(anual |> select(ANIO, TOTAL_ANUAL = NACIMIENTOS), by = "ANIO") |>
+  mutate(SIN_INFORMACION = TOTAL_ANUAL - NACIMIENTOS_CON_EDAD) |>
+  select(ANIO, NACIMIENTOS_CON_EDAD, SIN_INFORMACION, MEDIA_APROXIMADA)
+stopifnot(nrow(media_edad) == 9L, !anyNA(media_edad$MEDIA_APROXIMADA),
+          all(media_edad$SIN_INFORMACION >= 0L))
 
 write.csv(anual, file.path(tablas, "resumen_anual.csv"), row.names = FALSE, fileEncoding = "UTF-8")
 write.csv(departamentos, file.path(tablas, "departamentos_anual.csv"), row.names = FALSE,
           fileEncoding = "UTF-8")
 write.csv(edades, file.path(tablas, "edad_anual.csv"), row.names = FALSE, fileEncoding = "UTF-8")
+write.csv(media_edad, file.path(tablas, "media_edad_anual.csv"), row.names = FALSE,
+          fileEncoding = "UTF-8")
 write.csv(areas, file.path(tablas, "area_anual.csv"), row.names = FALSE, fileEncoding = "UTF-8")
 write.csv(auditoria, file.path(tablas, "auditoria_divipola.csv"), row.names = FALSE,
           fileEncoding = "UTF-8")
@@ -80,17 +94,34 @@ grafico_serie <- ggplot(anual, aes(ANIO, TASA_POR_MIL)) +
        caption = "Fuente: microdatos de nacimientos y proyecciones departamentales del DANE. Cálculo propio.") + tema
 ggsave(file.path(figuras, "serie_tasa.png"), grafico_serie, width = 9, height = 5, dpi = 160)
 
-orden_edades <- c(paste0(seq(10, 50, 5), "–", seq(14, 54, 5)), "Sin información")
-grafico_edad <- edades |>
-  filter(ANIO %in% c(2015L, 2023L)) |>
-  mutate(EDAD_MADRE_GRUPO = factor(EDAD_MADRE_GRUPO, levels = orden_edades)) |>
-  ggplot(aes(EDAD_MADRE_GRUPO, PORCENTAJE, fill = factor(ANIO))) +
-  geom_col(position = "dodge") +
-  scale_fill_manual(values = c("2015" = "#087E8B", "2023" = "#F4A261"), name = "Año") +
-  labs(title = "Edad materna registrada", x = "Grupo de edad", y = "% de nacimientos",
-       caption = "Denominador: nacimientos de madres residentes en Colombia con departamento conocido.") +
-  tema + theme(axis.text.x = element_text(angle = 45, hjust = 1))
-ggsave(file.path(figuras, "edad_2015_2023.png"), grafico_edad, width = 9, height = 5, dpi = 160)
+orden_edades <- c("10–14", "15–19", "20–24", "25–29", "30–34", "35–39", "40+")
+edades_serie <- edades |>
+  filter(EDAD_MADRE_GRUPO != "Sin información") |>
+  mutate(EDAD_MADRE_GRUPO = if_else(
+    EDAD_MADRE_GRUPO %in% c("40–44", "45–49", "50–54"),
+    "40+", EDAD_MADRE_GRUPO
+  )) |>
+  group_by(ANIO, EDAD_MADRE_GRUPO) |>
+  summarise(NACIMIENTOS = sum(NACIMIENTOS), .groups = "drop") |>
+  mutate(EDAD_MADRE_GRUPO = factor(EDAD_MADRE_GRUPO, levels = orden_edades))
+stopifnot(nrow(edades_serie) == 63L, !anyNA(edades_serie$EDAD_MADRE_GRUPO))
+grafico_edad <- ggplot(edades_serie,
+                       aes(ANIO, NACIMIENTOS, colour = EDAD_MADRE_GRUPO)) +
+  geom_line(linewidth = 1.1) + geom_point(size = 2) +
+  scale_x_continuous(breaks = 2015:2023) +
+  scale_y_continuous(labels = scales::label_number(scale = 1e-3, suffix = " mil")) +
+  scale_colour_manual(values = c(
+    "10–14" = "#788B9A", "15–19" = "#FF504F", "20–24" = "#0056A6",
+    "25–29" = "#002C49", "30–34" = "#087E8B", "35–39" = "#B8860B",
+    "40+" = "#7A5AA8"
+  ), name = "Edad de la madre") +
+  labs(title = "Nacimientos por grupo de edad materna, año a año",
+       subtitle = "Madres residentes en Colombia con departamento conocido",
+       x = "Año", y = "Nacimientos",
+       caption = "40+ agrupa 40–54 años. Se excluyen edades sin información de esta figura.") +
+  tema + theme(legend.position = "bottom")
+ggsave(file.path(figuras, "edad_serie_2015_2023.png"),
+       grafico_edad, width = 10, height = 5.5, dpi = 160)
 
 grafico_area <- areas |>
   filter(ANIO %in% c(2015L, 2023L)) |>
@@ -163,5 +194,5 @@ grafico_mapa <- ggplot(mapas) +
   tema + theme(axis.text = element_blank(), axis.ticks = element_blank(), panel.grid = element_blank())
 ggsave(file.path(figuras, "mapa_tasa_2015_2023.png"), grafico_mapa, width = 10, height = 6, dpi = 160)
 
-cat(sprintf("Análisis R terminado: %s registros con residencia departamental; 5 tablas y 6 figuras.\n",
+cat(sprintf("Análisis R terminado: %s registros con residencia departamental; 6 tablas y 6 figuras.\n",
             formatC(sum(anual$NACIMIENTOS), format = "d", big.mark = ".", decimal.mark = ",")))

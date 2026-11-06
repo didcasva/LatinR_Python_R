@@ -23,6 +23,7 @@ anual <- read.csv("output/tables/resumen_anual.csv", fileEncoding = "UTF-8")
 depto <- read.csv("output/tables/departamentos_anual.csv", fileEncoding = "UTF-8",
                   colClasses = c("integer", "character", "character", "integer", "numeric", "numeric"))
 edad <- read.csv("output/tables/edad_anual.csv", fileEncoding = "UTF-8")
+media_edad <- read.csv("output/tables/media_edad_anual.csv", fileEncoding = "UTF-8")
 area <- read.csv("output/tables/area_anual.csv", fileEncoding = "UTF-8")
 auditoria <- read.csv("output/tables/auditoria_divipola.csv", fileEncoding = "UTF-8")
 manifiesto <- jsonlite::fromJSON("../Data_Processed/preparacion_manifiesto.json")
@@ -90,11 +91,27 @@ knitr::kable(data.frame(
 
 ## Edad materna y área de residencia
 
-Las barras expresan porcentajes del total anual de madres residentes en Colombia
-con departamento conocido. **Sin información** permanece en el denominador.
-La edad es una categoría agrupada del formulario, no una edad exacta.
+La serie de edad muestra **conteos de los nueve años** para madres residentes en
+Colombia con departamento conocido. Agrupamos las edades de 40 a 54 años como
+**40+** y no graficamos las edades **sin información**. La edad proviene de
+categorías del formulario, no de edades exactas.
 
-![](output/figures/edad_2015_2023.png){fig-alt="Distribución de edad materna de 2015 y 2023" width="95%"}
+![](output/figures/edad_serie_2015_2023.png){fig-alt="Series anuales de nacimientos de 2015 a 2023 por grupo de edad de la madre" width="100%"}
+
+El promedio siguiente es una **aproximación**: se asigna a cada grupo quinquenal
+su punto medio y se excluyen los registros sin información de edad.
+
+```{r}
+knitr::kable(data.frame(
+  Año = media_edad$ANIO,
+  `Media aproximada (años)` = formato_t(media_edad$MEDIA_APROXIMADA),
+  `Edad sin información` = formato_n(media_edad$SIN_INFORMACION),
+  check.names = FALSE
+), align = c("r", "r", "r"))
+```
+
+El gráfico de área expresa porcentajes del total anual; **sin información**
+permanece en ese denominador.
 
 ![](output/figures/area_2015_2023.png){fig-alt="Participación de nacimientos según área de residencia materna en 2015 y 2023" width="80%"}
 
